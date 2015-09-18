@@ -1,0 +1,61 @@
+[global_config]
+  enabled_plugins = ,
+  handle_size = 1
+  inactive_color_offset = 0.7
+  tab_position = hidden
+[keybindings]
+[profiles]
+  [[default]]
+    scrollbar_position = hidden
+    palette = "#073642:#dc322f:#859900:#b58900:#268bd2:#d33682:#2aa198:#eee8d5:#002b36:#cb4b16:#586e75:#657b83:#839496:#6c71c4:#93a1a1:#fdf6e3"
+    cursor_shape = underline
+    background_image = None
+    foreground_color = "#dddddd"
+    scroll_on_output = False
+    icon_bell = False
+    show_titlebar = False
+    font = Inconsolata-g Medium 10
+    background_color = "#424242"
+    scrollback_infinite = True
+[layouts]
+  [[default]]
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+      profile = default
+    [[[window0]]]
+      type = Window
+      parent = ""
+  [[sm]]
+    [[[child0]]]
+      position = 0:0
+      type = Window
+      order = 0
+      parent = ""
+      size = 1920, 1021
+    [[[child1]]]
+      position = 960
+      type = HPaned
+      order = 0
+      parent = child0
+    [[[child2]]]
+      position = 510
+      type = VPaned
+      order = 0
+      parent = child1
+    [[[terminal3]]]
+      profile = default
+      type = Terminal
+      order = 0
+      parent = child2
+    [[[terminal5]]]
+      profile = default
+      type = Terminal
+      order = 1
+      parent = child1
+    [[[terminal4]]]
+      profile = default
+      type = Terminal
+      order = 1
+      parent = child2
+[plugins]

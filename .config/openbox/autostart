@@ -1,0 +1,15 @@
+xrandr --setprovideroffloadsink nouveau Intel &
+#feh --bg-scale 'Images/eiffel-1400x900.jpg' --bg-scale 
+#'Images/tree-1680x1050.jpg' &
+#nitrogen --restore &
+feh --bg-scale 'Pictures/walle/TronLightCycle1.png' &
+tint2 &
+compton --config .config/compton.conf &
+# conky -c ./.conkyconfig/configs/conky_system &
+wicd-client --tray &
+volumeicon &
+clipit &
+thunar --daemon &
+gnome-screensaver &
+xset s noblank &
+xset -dpms s off &

@@ -34,10 +34,12 @@ promptinit
 zstyle ':completion:*' rehash true
 # source /usr/share/zsh/site-contrib/powerline.zsh
 
+export TERM=xterm-256color
+
 export GOPATH=~/workspace/go
 export PATH=$PATH:/home/smahs/.gem/ruby/2.2.0/bin:$GOPATH/bin
 #export VDPAU_DRIVER=nouveau
-export DRI_PRIME=1
+#export DRI_PRIME=1
 export CHROMIUM_USER_FLAGS=--disable-web-security
 
 stty -ixon

@@ -5,8 +5,13 @@ filetype off
 :set mouse=a
 vmap <C-c> "+y
 
+
+
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
+
+let g:molokai_original = 1
+let g:rehash256 = 1
 
 " let Vundle manage Vundle
 " required! 
@@ -31,7 +36,7 @@ set foldcolumn=2
 set foldlevel=99
 let xml_syntax_folding=1
 
-set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 8
+set guifont=Inconsolata-g\ 8
 set laststatus=2
 
 
@@ -46,7 +51,9 @@ Bundle 'klen/python-mode'
 Bundle 'majutsushi/tagbar'
 Bundle 'fatih/vim-go'
 Bundle 'Valloric/YouCompleteMe'
-
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+Plugin 'itchyny/lightline.vim'
 
 map <F2> :NERDTreeToggle<CR>
 imap <S-Tab> <C-o><<
@@ -130,3 +137,69 @@ function! XTermPasteBegin()
     set paste
     return ""
 endfunction
+
+" Lightline config
+set encoding=utf-8
+scriptencoding utf-8
+let g:lightline = {
+      \ 'colorscheme': 'Tomorrow_Night',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'fugitive', 'filename' ] ]
+      \ },
+      \ 'component_function': {
+      \   'fugitive': 'LightLineFugitive',
+      \   'readonly': 'LightLineReadonly',
+      \   'modified': 'LightLineModified',
+      \   'filename': 'LightLineFilename'
+      \ },
+      \ 'separator': { 'left': '', 'right': '' },
+      \ 'subseparator': { 'left': '', 'right': '' }
+      \ }
+
+function! LightLineModified()
+  if &filetype == "help"
+    return ""
+  elseif &modified
+    return "+"
+  elseif &modifiable
+    return ""
+  else
+    return ""
+  endif
+endfunction
+
+function! LightLineReadonly()
+  if &filetype == "help"
+    return ""
+  elseif &readonly
+    return ""
+  else
+    return ""
+  endif
+endfunction
+
+function! LightLineFugitive()
+  " return exists('*fugitive#head') ? fugitive#head() : ''
+  if exists("*fugitive#head")
+    let _ = fugitive#head()
+    return strlen(_) ? ' '._ : ''
+  endif
+  return ''
+endfunction
+
+function! LightLineFilename()
+  return ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
+       \ ('' != expand('%:t') ? expand('%:t') : '[No Name]') .
+       \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
+endfunction
+set noshowmode
+
+" Ultisnips config
+" Trigger configuration
+let g:UltiSnipsExpandTrigger="<s-tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"

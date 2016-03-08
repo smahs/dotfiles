@@ -2,10 +2,13 @@
 set nocompatible
 filetype off
 
+" disable the dreaded ex-mode
+nnoremap Q <nop>
+
 :set mouse=a
 vmap <C-c> "+y
 
-
+set noswapfile
 
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()

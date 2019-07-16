@@ -1,3 +1,5 @@
+set rtp +=~/.vim
+
 " Vim-plug ==================================
 call plug#begin('~/.vim/plugged')
 

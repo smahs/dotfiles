@@ -1,63 +1,53 @@
-" Dein Setup =================================
+" Vim-plug ==================================
+call plug#begin('~/.vim/plugged')
 
-if &compatible
-    set nocompatible               " Be iMproved
-endif
+"" Utilities:
+Plug 'tpope/vim-fugitive'
+Plug 'scrooloose/nerdtree'
+Plug 'majutsushi/tagbar'
+Plug 'itchyny/lightline.vim'
 
-set runtimepath+=/Users/smahs/.vim/dein/repos/github.com/Shougo/dein.vim
+"" Languages:
+Plug 'fatih/vim-go'
+Plug 'lervag/vimtex'
 
-if dein#load_state('/Users/smahs/.vim/dein')
-    call dein#begin('/Users/smahs/.vim/dein')
+"" Themes:
+Plug 'mhartington/oceanic-next'
 
-    " Let dein manage dein
-    call dein#add('/Users/smahs/.vim/dein/repos/github.com/Shougo/dein.vim')
+call plug#end()
 
-    " Plugins listing begin
-    
-    "" Utilities:
-    call dein#add('tpope/vim-fugitive')
-    call dein#add('scrooloose/nerdtree')
-    call dein#add('majutsushi/tagbar')
-    call dein#add('itchyny/lightline.vim')
+" Vim Plug Eng ==============================
 
-    "" Languages:
-    call dein#add('fatih/vim-go')
-    call dein#add('lervag/vimtex')
-
-    "" Themes:
-    call dein#add('mhartington/oceanic-next')
-
-    " Plugin listing end
-
-    call dein#end()
-    call dein#save_state()
-endif
-
-filetype plugin indent on
-syntax enable
-
-"" Install enabled plugins on startup.
-if dein#check_install()
-  call dein#install()
-endif
-
-" Dein Setup End =================================
 
 " Vim Setup =================================
 
-"" Enable True Color:
-if (has("termguicolors"))
-    set termguicolors
+"" Use mouse if available
+if has('mouse')
+    set mouse=a
 endif
+
+"" Use system clipboard - deps: pbcopy (Mac), xsel (Linux)
+set clipboard=unnamedplus
+
+"" Enable True Color:
+"" if (has("termguicolors"))
+""	set termguicolors
+"" endif
 
 "" Set Color Theme:
 colorscheme OceanicNext
 
+"" User UTF-8 fonts
+set encoding=utf-8
+
+"" Airline setup
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ''
+let g:airline#extensions#tabline#left_alt_sep = '|'
+
 "" Popup Colors:
 highlight Pmenu ctermfg=252 ctermbg=236
-
-"" Set Font:
-set guifont=Inconsolata-g\ 12
 
 "" Show Statusline:
 set laststatus=2
@@ -89,6 +79,7 @@ set autochdir
 
 " Vim Setup End =================================
 
+
 " Plugin Setup =================================
 
 "" NERDTree:
@@ -100,7 +91,7 @@ let g:tagbar_width = 20
 
 "" VimGo:
 let g:go_fmt_command = "goimports"
-let g:go_metalinter_autosave = 1
+let g:go_metalinter_autosave = 0
 let g:go_metalinter_autosave_enabled = ['vet', 'golint']
 
 "" LightLine:
@@ -159,7 +150,8 @@ function! LightLineFilename()
        	\ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
 endfunction
 
-" Plugin Setup End =================================
+" Plugin Setup End ==============================
+
 
 " Custom Settings =================================
 
@@ -173,8 +165,8 @@ inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
 function! XTermPasteBegin()
     set pastetoggle=<Esc>[201~
-	set paste
-	return ""
+        set paste
+        return ""
 endfunction
 
 "" Custom TabStops:
@@ -185,5 +177,8 @@ autocmd Filetype javascript setlocal ts=2 sts=2 sw=2
 
 """ XML Folding:
 let g:xml_syntax_folding=1
+
+""" YAML Spacing:
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 " Custom Settings End =================================

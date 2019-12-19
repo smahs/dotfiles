@@ -12,6 +12,9 @@ Plug 'itchyny/lightline.vim'
 "" Languages:
 Plug 'fatih/vim-go'
 Plug 'lervag/vimtex'
+Plug 'vim-scripts/indentpython.vim'
+Plug 'tell-k/vim-autopep8'
+Plug 'elzr/vim-json'
 
 "" Themes:
 Plug 'mhartington/oceanic-next'
@@ -176,6 +179,18 @@ endfunction
 """ JavaScript And HTML:
 autocmd Filetype html setlocal ts=2 sts=2 sw=2
 autocmd Filetype javascript setlocal ts=2 sts=2 sw=2
+
+""" JSON:
+au! BufRead,BufNewFile *.json set filetype=json
+augroup json_autocmd
+  autocmd!
+  autocmd FileType json set autoindent
+  autocmd FileType json set formatoptions=tcq2l
+  autocmd FileType json set textwidth=78 shiftwidth=2
+  autocmd FileType json set softtabstop=2 tabstop=8
+  autocmd FileType json set expandtab
+  autocmd FileType json set foldmethod=syntax
+augroup END
 
 """ XML Folding:
 let g:xml_syntax_folding=1

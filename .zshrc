@@ -11,22 +11,6 @@ autoload -U +X compinit && compinit
 
 # End of lines added by compinstall
 
-# ZPlug
-#source /usr/share/zsh/scripts/zplug/init.zsh
-#zplug "robbyrussell/oh-my-zsh"
-#zplug "plugins/git", from:oh-my-zsh
-#zplug "plugins/virtualenv", from:oh-my-zsh
-#
-#if ! zplug check --verbose; then
-#    printf "Install? [y/N]: "
-#    if read -q; then
-#        echo; zplug install
-#    fi
-#fi
-#
-## Then, source plugins and add commands to $PATH
-#zplug load
-
 # Prompt customization
 autoload -U colors && colors
 zstyle ':vcs_info:*' enable git
@@ -48,16 +32,29 @@ grml_theme_add_token arrow -f arrow_func
 zstyle ':prompt:grml:left:setup' items virtual-env change-root path vcs arrow
 zstyle ':prompt:grml:right:setup' items rc sad-smiley
 
+# Enable direnv hook
+eval "$(direnv hook zsh)"
+
 setKeyboardLight () {
     dbus-send --system --type=method_call  --dest="org.freedesktop.UPower" "/org/freedesktop/UPower/KbdBacklight" "org.freedesktop.UPower.KbdBacklight.SetBrightness" int32:$1
 }
 
-export TERM=xterm-256color
+# export TERM=xterm-256color
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
+# export LESS='--mouse'
+
+# Go paths
 export GOPATH=~/workdir/go
 export PATH=$PATH:$GOPATH/bin
 
+# Use pyenv to manage python runtime
+eval "$(pyenv init -)"
+
+# Local python bin path
+export PATH=/home/smahs/.local/bin:$PATH
+
+# Aliases
 alias l='exa -lGF --git'
 alias la='exa -la --git'
 alias lt='exa -lTF -L 2 --git'
@@ -82,6 +79,9 @@ export PATH=$PATH:$HOME/.linkerd2/bin
 #
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
+# Helm completions
+source <(helm completion zsh)
+
 function ka_fun {
         kubectl $@ --all-namespaces
 }
@@ -101,10 +101,10 @@ decode_base64_url() {
   if [ $len -eq 2 ]; then result="$1"'=='
   elif [ $len -eq 3 ]; then result="$1"'=' 
   fi
-  echo "$result" | tr '_-' '/+' | base64 -d
+  echo "$result" | tr '_-' '/+' | base64 --decode
 }
 
-decode_jwt(){
+decode_jwt() {
    decode_base64_url $(echo -n $2 | cut -d "." -f $1) | jq .
 }
 
@@ -113,3 +113,5 @@ alias jwth="decode_jwt 1"
 
 # Decode JWT Payload
 alias jwtp="decode_jwt 2"
+
+db64() { echo $1 | base64 --decode; }

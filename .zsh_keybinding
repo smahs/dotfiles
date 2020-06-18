@@ -1,0 +1,43 @@
+# Set emacs mode
+bindkey -e
+
+autoload zkbd
+[[ ! -f ${ZDOTDIR:-$HOME}/.zkbd/$TERM-$VENDOR-$OSTYPE ]] && zkbd
+source ${ZDOTDIR:-$HOME}/.zkbd/$TERM-$VENDOR-$OSTYPE
+
+[[ -n ${key[Backspace]} ]] && bindkey "${key[Backspace]}" backward-delete-char
+[[ -n ${key[Insert]} ]] && bindkey "${key[Insert]}" overwrite-mode
+[[ -n ${key[Home]} ]] && bindkey "${key[Home]}" beginning-of-line
+[[ -n ${key[PageUp]} ]] && bindkey "${key[PageUp]}" up-line-or-history
+[[ -n ${key[Delete]} ]] && bindkey "${key[Delete]}" delete-char
+[[ -n ${key[End]} ]] && bindkey "${key[End]}" end-of-line
+[[ -n ${key[PageDown]} ]] && bindkey "${key[PageDown]}" down-line-or-history
+[[ -n ${key[Up]} ]] && bindkey "${key[Up]}" up-line-or-search
+[[ -n ${key[Left]} ]] && bindkey "${key[Left]}" backward-char
+[[ -n ${key[Down]} ]] && bindkey "${key[Down]}" down-line-or-search
+[[ -n ${key[Right]} ]] && bindkey "${key[Right]}" forward-char
+
+
+# The following is extracted from grml zsh config
+
+## use Ctrl-left-arrow and Ctrl-right-arrow for jumping to word-beginnings on
+## the command line.
+bindkey -M emacs '\e[1;5C' forward-word
+bindkey -M emacs '\e[1;5D' backward-word
+
+## the same for alt-left-arrow and alt-right-arrow
+bindkey -M emacs '^[[1;3C' forward-word
+bindkey -M emacs '^[[1;3D' backward-word
+
+## Also try ESC Left/Right:
+bindkey -M emacs '\e'${key[Right]} forward-word
+bindkey -M emacs '\e'${key[Left]} backward-word
+
+# Set command pattern search using arrow keys
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search # Up
+bindkey "^[[B" down-line-or-beginning-search # Down
+

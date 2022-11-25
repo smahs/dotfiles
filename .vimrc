@@ -32,7 +32,7 @@ if has('mouse')
 endif
 
 "" Use system clipboard - deps: pbcopy (Mac), xsel (Linux)
-set clipboard=unnamedplus
+set clipboard+=unnamedplus
 
 "" Enable True Color:
 "" if (has("termguicolors"))
@@ -222,5 +222,11 @@ augroup END
 
 """ YAML Spacing:
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=0# indentkeys-=<:>
+
+""" SQL spacing:
+autocmd Filetype sql setlocal ts=2 sts=2 sw=2
+
+""" Terraform spacing:
+autocmd Filetype tf setlocal ts=2 sts=2 sw=2
 
 " Custom Settings End =================================

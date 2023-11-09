@@ -3,6 +3,9 @@ setopt autocd
 unsetopt beep extendedglob nomatch
 # End of lines configured by zsh-newuser-install
 
+# Add custom zsh function path
+fpath+=~/.zfunc
+
 # The following lines were added by compinstall
 zstyle :compinstall filename '/home/smahs/.zshrc'
 
@@ -32,12 +35,16 @@ grml_theme_add_token arrow -f arrow_func
 zstyle ':prompt:grml:left:setup' items virtual-env change-root path vcs arrow
 zstyle ':prompt:grml:right:setup' items rc sad-smiley
 
-# Enable direnv hook
-eval "$(direnv hook zsh)"
-
 setKeyboardLight () {
     dbus-send --system --type=method_call  --dest="org.freedesktop.UPower" "/org/freedesktop/UPower/KbdBacklight" "org.freedesktop.UPower.KbdBacklight.SetBrightness" int32:$1
 }
+
+# Shell completers and content instantiators
+eval "$(zoxide init zsh)"
+eval "$(direnv hook zsh)"
+eval "$(pyenv init -)" 1>/dev/null
+eval "$(pyenv virtualenv-init -)"
+source <(helm completion zsh)
 
 # export TERM=xterm-256color
 export LC_ALL=en_US.UTF-8
@@ -47,9 +54,6 @@ export LANG=en_US.UTF-8
 # Go paths
 export GOPATH=~/workdir/go
 export PATH=$PATH:$GOPATH/bin
-
-# Use pyenv to manage python runtime
-eval "$(pyenv init -)"
 
 # Local python bin path
 export PATH=/home/smahs/.local/bin:$PATH
@@ -61,10 +65,12 @@ alias lt='exa -lTF -L 2 --git'
 alias rm='rm -fv'
 alias vim='nvim'
 alias latexmk='latex-mk'
+alias tlmgr='/usr/share/texmf-dist/scripts/texlive/tlmgr.pl --usermode'
 alias ag='ag --ignore-dir={vendor,documentation,bower_components,venv,.venv,.env,public,templates} --ignore="*min.*js*"'
 alias go-bindata='noglob go-bindata'
 alias rgr='rg -T html -T js -T css -T md'
 alias open='xdg-open'
+alias yay='paru'
 
 export PATH=$PATH:$HOME/.google-cloud-sdk/bin
 export PATH=$PATH:$HOME/.linkerd2/bin
@@ -80,7 +86,6 @@ export PATH=$PATH:$HOME/.linkerd2/bin
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 # Helm completions
-source <(helm completion zsh)
 
 function ka_fun {
         kubectl $@ --all-namespaces
@@ -89,10 +94,14 @@ function ka_fun {
 alias k=kubectl
 alias kk='kubectl -n kube-system'
 alias ka='ka_fun'
+alias kc='kubecm'
 
 complete -F __start_kubectl k
 complete -F __start_kubectl ka
 complete -F __start_kubectl kk
+
+# Kubebuilder
+export PATH=$PATH:/usr/local/kubebuilder/bin
 
 # JWT Decoding
 decode_base64_url() {
@@ -115,3 +124,8 @@ alias jwth="decode_jwt 1"
 alias jwtp="decode_jwt 2"
 
 db64() { echo $1 | base64 --decode; }
+
+# Source nvm completions - NOTE its too slow
+# source /usr/share/nvm/init-nvm.sh
+export PATH="$HOME/.jenv/bin:$PATH"
+#eval "$(jenv init -)"
